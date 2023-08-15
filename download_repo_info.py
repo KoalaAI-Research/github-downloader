@@ -2,7 +2,7 @@
 get_repo_information.py
 
 Downloads information about all GitHub repositories
-with greater than or equal to 100 stars and are less than a gigabyte in size 
+with greater than or equal to 25 stars and are less than a gigabyte in size AND is in CC0 or unlicense.
 Each data record has the repository's name, number of stars, and top language
 The output is github_repositories.csv
 '''
@@ -16,8 +16,8 @@ import requests
 from tqdm import tqdm
 
 #~~~~~~~~~~~~~~~~~~
-USER = "noanabeshima"
-TOKEN = "14d353dfb27b03c5de0cbe56bab154cf6713dde2"
+USER = ""
+TOKEN = ""
 #~~~~~~~~~~~~~~~~~~
 
 
@@ -37,10 +37,11 @@ def save_ckpt(lower_bound: int, upper_bound: int):
 
 def get_request(lower_bound: int, upper_bound: int, page: int = 1):
     # Returns a request object from querying GitHub 
-    # for repos in-between size lower_bound and size upper_bound with over 100 stars.
+    # for repos in-between size lower_bound and size upper_bound with over 25 stars and public domain license.
     global REMAINING_REQUESTS, USER, TOKEN, repo_list
+    #print(f'https://api.github.com/search/repositories?q=size:{lower_bound}..{upper_bound}+stars:>100+license:unlicense+OR+license:cc0-1.0&per_page=100&page={page}')
     r = requests.get(
-           f'https://api.github.com/search/repositories?q=size:{lower_bound}..{upper_bound}+stars:>100&per_page=100&page={page}',
+           f'https://api.github.com/search/repositories?q=size:{lower_bound}..{upper_bound}+stars:>25+license:unlicense&per_page=100&page={page}',
            auth = (USER, TOKEN)
            )
 
